@@ -1,0 +1,43 @@
+load("@bazel_skylib//rules:native_binary.bzl", "native_test")
+
+unix = select({
+    "@platforms//os:windows": ["@platforms//:incompatible"],
+    "//conditions:default": [],
+})
+
+windows = select({
+    "@platforms//os:windows": [],
+    "//conditions:default": ["@platforms//:incompatible"],
+})
+
+native_test(
+    name = "windows-one",
+    size = "small",
+    src = ":rem.bat",
+    out = "out.bat",
+    target_compatible_with = windows,
+)
+
+native_test(
+    name = "windows-two",
+    size = "small",
+    src = ":rem.bat",
+    out = "out.bat",
+    target_compatible_with = windows,
+)
+
+native_test(
+    name = "unix-one",
+    size = "small",
+    src = ":true.sh",
+    out = "out.bat",
+    target_compatible_with = unix,
+)
+
+native_test(
+    name = "unix-two",
+    size = "small",
+    src = ":true.sh",
+    out = "out.bat",
+    target_compatible_with = unix,
+)
